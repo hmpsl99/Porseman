@@ -5,6 +5,8 @@ from Employee.models import Employee
 from Employee.serializers import employeeserializer
 from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
+from django.contrib.auth.decorators import login_required
+
 
 # Create your views here.
 
@@ -13,7 +15,7 @@ def all_employees_api(request):
     all_employees = Employee.objects.raw(query)
     serializer = employeeserializer(all_employees, many = True)
     return JsonResponse(serializer.data,safe=False)
-
+@login_required
 def all_employees(request):
     return render(request, 'Employee/index.html')
 
