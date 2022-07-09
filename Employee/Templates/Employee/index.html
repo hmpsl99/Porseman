@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang = "en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Hello</title>
+    </head>
+    <body>
+        <p> this is the hello page</p>
+        {% if user.is_authenticated %}
+        <h2>You are Authenticated, Welcome</h2>
+        {% else %}
+        <h2> you are not logged in, go and log in my friend!</h2>
+        {%endif%}
+    </body>
+</html> 
