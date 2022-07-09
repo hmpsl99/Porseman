@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'Employee',
     'rest_framework',
     'QA',
+    'Evaluation',
 ]
 
 MIDDLEWARE = [
