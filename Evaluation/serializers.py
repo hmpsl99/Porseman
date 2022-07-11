@@ -13,3 +13,9 @@ class EmployeeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Employee
         fields = ['id','first_name']
+
+class qaSerializer(serializers.Serializer):
+    id = serializers.IntegerField()
+    text = serializers.CharField()
+    answer_id = serializers.IntegerField()
+    answer_text = serializers.CharField()
