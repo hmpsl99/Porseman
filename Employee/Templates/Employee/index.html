@@ -11,5 +11,39 @@
         {% else %}
         <h2> you are not logged in, go and log in my friend!</h2>
         {%endif%}
+
+        <h3>list of employees</h3>                  
+
+            <table>
+                <tr>
+                    <th>ID</th>
+                    <th>First Name</th>
+                    <th>Position</th>
+                </tr>
+                <tbody id = "demo">
+                </tbody>
+            </table>
+
+            <a href="http://127.0.0.1:8000/evaluation/"> Go to Evaluation Page </a>
+
+        <script>
+        const api_url = 'http://127.0.0.1:8000/employees/';
+        xmlhttp=new XMLHttpRequest();
+        xmlhttp.open("GET",api_url,false);
+        xmlhttp.send();
+        employees = JSON.parse(xmlhttp.responseText);
+        var table = document.getElementById('demo')
+        for (let i = 0; i<employees.length; i++){
+            var id = employees[i].id;
+            var first_name = employees[i].first_name;
+            var position = employees[i].position;
+            var row = `<tr> <td> ${id} </td> <td> ${first_name} </td> <td> ${position} </td> </tr> `
+            table.innerHTML += row
+        }
+
+        
+        
+        
+        </script>
     </body>
 </html> 

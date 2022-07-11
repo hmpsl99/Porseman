@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang = "en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Evaluation</title>
+    </head>
+    <body>
+    <label for="relationships">Choose a Relationship</label>
+
+    <select name="relationships" id="relationships">
+    </select>
+
+    <label for="employees">Choose a Relationship</label>
+
+    <select name="employees" id="employees">
+    </select>
+        <script>
+        const api_url = 'http://127.0.0.1:8000/evaluation/relationships/';
+        xmlhttp=new XMLHttpRequest();
+        xmlhttp.open("GET",api_url,false);
+        xmlhttp.send();
+        relationships = JSON.parse(xmlhttp.responseText);
+        drop_down = document.getElementById("relationships");
+
+        text = '';
+        for (let i = 0 ;i<relationships.length; i++) {
+          id = relationships[i].id
+          title = relationships[i].title
+          text = `<option value="${id}">${title}</option>`
+          drop_down.innerHTML += text          
+        }
+
+        const api_url2 = 'http://127.0.0.1:8000/evaluation/employees';
+        xmlhttp2=new XMLHttpRequest();
+        xmlhttp2.open("GET",api_url2,false);
+        xmlhttp2.send()
+        employees = JSON.parse(xmlhttp2.responseText);
+
+        console.log(employees)
+        
+        drop_down2 = document.getElementById("employees");
+
+        for (let i = 0 ;i<employees.length; i++) {
+          id = employees[i].id
+          first_name = employees[i].first_name
+          text = `<option value="${id}">${first_name}</option>`
+          drop_down2.innerHTML += text          
+        }
+        
+        
+        </script>
+    </body>
+</html> 
