@@ -10,10 +10,16 @@
     <select name="relationships" id="relationships">
     </select>
 
-    <label for="employees">Choose a Relationship</label>
+    <label for="employees">Choose an Employee</label>
 
     <select name="employees" id="employees">
     </select>
+
+    <div>
+
+    </div>
+
+
         <script>
         const api_url = 'http://127.0.0.1:8000/evaluation/relationships/';
         xmlhttp=new XMLHttpRequest();
@@ -36,7 +42,6 @@
         xmlhttp2.send()
         employees = JSON.parse(xmlhttp2.responseText);
 
-        console.log(employees)
         
         drop_down2 = document.getElementById("employees");
 
@@ -46,6 +51,19 @@
           text = `<option value="${id}">${first_name}</option>`
           drop_down2.innerHTML += text          
         }
+
+        const api_url3 = 'http://127.0.0.1:8000/evaluation/qa';
+        xmlhttp3=new XMLHttpRequest();
+        xmlhttp3.open("GET",api_url3,false);
+        xmlhttp3.send();
+        qa = JSON.parse(xmlhttp3.responseText);
+
+        for (let i = 0 ; i<qa.length; i++) {
+          question = qa[i].text
+          answer_id_1= qa[i].answer_id
+        }
+
+
         
         
         </script>
