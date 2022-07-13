@@ -5,18 +5,20 @@
         <title>Evaluation</title>
     </head>
     <body>
-    <label for="relationships">Choose a Relationship</label>
+      <label for="relationships">Choose a Relationship</label>
 
-    <select name="relationships" id="relationships">
-    </select>
+      <select name="relationships" id="relationships">
+      </select>
 
-    <label for="employees">Choose an Employee</label>
+      <label for="employees">Choose an Employee</label>
 
-    <select name="employees" id="employees">
-    </select>
+      <select name="employees" id="employees">
+      </select>
 
-    <div>
+      
 
+
+    <div id = "qa_div">
     </div>
 
 
@@ -58,11 +60,22 @@
         xmlhttp3.send();
         qa = JSON.parse(xmlhttp3.responseText);
 
+        qa_text=''
+        div_qa = document.getElementById("qa_div")
         for (let i = 0 ; i<qa.length; i++) {
-          question = qa[i].text
-          answer_id_1= qa[i].answer_id
+          question_id = qa[i].q_id
+          question_text = qa[i].q_text
+          answer_id_1= qa[i].answers[0].a_id
+          answer_text_1 = qa[i].answers[0].a_text
+          answer_id_2 = qa[i].answers[1].a_id
+          answer_text_2 = qa[i].answers[1].a_text
+          qa_text =`<p class = '${question_id}'>${question_text}</p>
+          <input type="radio" id = '${answer_id_1}'>
+          <label for="${answer_id_1}">${answer_text_1}</label>
+          <input type="radio" id = '${answer_id_2}'>
+          <label for="${answer_id_2}">${answer_text_2}</label>`
+          div_qa.innerHTML+= qa_text
         }
-
 
         
         
