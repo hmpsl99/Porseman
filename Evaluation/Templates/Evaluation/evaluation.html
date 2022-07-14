@@ -5,6 +5,7 @@
         <title>Evaluation</title>
     </head>
     <body>
+
       <label for="relationships">Choose a Relationship</label>
 
       <select name="relationships" id="relationships">
@@ -18,7 +19,10 @@
       
 
 
-    <div id = "qa_div">
+    <div>
+      <form id = "qa_div">
+        
+      </form>
     </div>
 
 
@@ -43,8 +47,6 @@
         xmlhttp2.open("GET",api_url2,false);
         xmlhttp2.send()
         employees = JSON.parse(xmlhttp2.responseText);
-
-        
         drop_down2 = document.getElementById("employees");
 
         for (let i = 0 ;i<employees.length; i++) {
@@ -59,6 +61,13 @@
         xmlhttp3.open("GET",api_url3,false);
         xmlhttp3.send();
         qa = JSON.parse(xmlhttp3.responseText);
+        
+        var question_list = []
+        for (let i = 0 ; i<qa.length; i++) {
+          question_id = qa[i].q_id;
+          question_list.push(question_id);
+        }
+        
 
         qa_text=''
         div_qa = document.getElementById("qa_div")
@@ -70,12 +79,63 @@
           answer_id_2 = qa[i].answers[1].a_id
           answer_text_2 = qa[i].answers[1].a_text
           qa_text =`<p class = '${question_id}'>${question_text}</p>
-          <input name = "${question_id}" type="radio" id = '${answer_id_1}'>
+          <input name = "${question_id}" type="radio" id = '${answer_id_1}' required>
           <label for="${answer_id_1}">${answer_text_1}</label>
-          <input name = "${question_id}" type="radio" id = '${answer_id_2}'>
+          <input name = "${question_id}" type="radio" id = '${answer_id_2}' required>
           <label for="${answer_id_2}">${answer_text_2}</label>`
           div_qa.innerHTML+= qa_text
         }
+        div_qa.innerHTML +=`<input type="submit">`
+
+        form_qa = div_qa
+
+        form_qa.addEventListener("submit", (e) => {
+          //e.preventDefault();
+          let select_relationship = document.getElementById('relationships');
+          var relationship_id = select_relationship.options[select_relationship.selectedIndex].value;
+
+          
+          let select_employee = document.getElementById('employees');
+          var employee_id = select_employee.options[select_employee.selectedIndex].value;
+
+          answer_list = [];
+          var radios = document.getElementsByTagName('input');
+          for (let i = 0; i < radios.length; i++) {
+                if (radios[i].type === 'radio' && radios[i].checked) {
+                // get value, set checked flag or do whatever you need to
+                answer_list.push(parseInt(radios[i].id));       
+                }
+                }
+          final_object = [];
+          for (let  z = 0 ; z<answer_list.length;z++) {
+            final_object.push({e_id: employee_id, r_id: relationship_id, qu_id:question_list[z], ans_id: answer_list[z]})
+          }
+          
+          var xhr4 = new XMLHttpRequest();
+          xhr4.open('POST', 'http://127.0.0.1:8000/evaluation/qa', true);
+          data = JSON.stringify(final_object);
+          console.log(data)
+          xhr4.setRequestHeader("X-CSRFToken", '{{csrf_token}}')
+          xhr4.setRequestHeader('Content-type', 'application/json;charset=UTF-8');
+          //"application/x-www-form-urlencoded"
+          xhr4.onload = function () {
+          // do something to response
+          console.log(this.responseText);
+          };
+          xhr4.send(data);
+          alert("Form has been submited");
+        })
+
+        //var xhr4 = new XMLHttpRequest();
+        //xhr4.open('POST', 'http://127.0.0.1:8000/evaluation/qa', true);
+        //data = 'title=newpost&body=Body';
+        //xhr4.setRequestHeader("X-CSRFToken", '{{csrf_token}}')
+        //xhr4.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+        //xhr4.onload = function () {
+        // do something to response
+        //console.log(this.responseText);
+        //};
+        //xhr4.send(data);
 
         
         
