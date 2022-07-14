@@ -7,6 +7,7 @@ from django.http import HttpRequest, HttpResponse, JsonResponse
 import json
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.csrf import csrf_exempt
+from Evaluation.models import Evaluation,Relationship
 
 
 # Create your views here.
@@ -51,6 +52,15 @@ def qa_api(request):
                 #serializer = qaSerializer(all_questions_answers, many = True)
                 return JsonResponse(final,safe=False, json_dumps_params={'ensure_ascii': False})
     if request.method == "POST":
-                evaluation_serie = str(request.user)
-                return JsonResponse("holly_shit",safe=False)
+                evaluation_serie = request.user
+                evaluations = json.loads(request.body)
+                for evaluation in evaluations:
+                    rev = Employee.objects.get(id=evaluation['e_id'] )
+                    rel = Relationship.objects.get(id = evaluation['r_id'] )
+                    qu = Question.objects.get(id = evaluation['qu_id'])
+                    an = Answer.objects.get(id = evaluation['ans_id'])
+                    new_record = Evaluation(user_logged_in = evaluation_serie,reviewee=rev,relationship=rel ,question=qu,answer =an)
+                    new_record.save()
+
+                return JsonResponse("OK",safe=False)
     #return HttpResponse(a)
