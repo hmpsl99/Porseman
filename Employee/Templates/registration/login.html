@@ -5,32 +5,37 @@
         <title>Login</title>
 
         <style>
+            form {
+                display:flex;
+                flex-direction: column;
+                align-items: center;
+                margin-top: 20%;
+                border-top: 1px rgb(0, 183, 255) solid;
+                border-bottom: 1px rgb(0, 183, 255) solid;
+                font-style:italic;
 
-        .center {
-            margin: auto;
-            width: 50%;
-            padding: 10px;
-        }
-        
+            }
+            .s {
+                text-align: center;
+            }
         </style>
     </head>
     <body>
-        <div  class = 'center'>
+        <div></div>
         {%if forms.error%}
         <p > در ورودی شما مشکلی وجود دارد <p>
         {%endif%}
         {%if next %}
-        <p class = center > متأسفانه نمیتوانید به این صفحه دسترسی داشته باشید. لطفا ابتدا وارد شوید</p>
+        <p class="s"> متأسفانه نمیتوانید به این صفحه دسترسی داشته باشید. لطفا ابتدا وارد شوید</p>
         {%endif%}
-        <form class = 'center' method = 'post'action="{% url 'login'%}">
+        <form method = 'post'action="{% url 'login'%}">
             {% csrf_token %}
-            <p class="center">نام کاربری:{{ form.username }}</p>
-            <p class = "center">گذرواژه:{{ form.password }}</p>
-            <P class="center"><input class = "center" type="submit" value ='login'></p>
-            <input class = "center" type="hidden" name = 'next' value ='{{next}}'>
+            <p>نام کاربری:{{ form.username }}</p>
+            <p>گذرواژه:{{ form.password }}</p>
+            <P><input type="submit" value ='login'></p>
+            <input type="hidden" name = 'next' value ='{{next}}'>
 
         </form>
-    </div>
 
     </body>
 </html> 

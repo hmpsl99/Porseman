@@ -5,29 +5,10 @@
         <title>Hello</title>
     </head>
     <body>
-        <p> this is the hello page</p>
-        {% if user.is_authenticated %}
-        <h2>You are Authenticated, Welcome</h2>
-        {% else %}
-        <h2> you are not logged in, go and log in my friend!</h2>
-        {%endif%}
-
-        <h3>list of employees</h3>                  
-
-            <table>
-                <tr>
-                    <th>ID</th>
-                    <th>First Name</th>
-                    <th>Position</th>
-                </tr>
-                <tbody id = "demo">
-                </tbody>
-            </table>
-
-            <a href="http://127.0.0.1:8000/evaluation/"> Go to Evaluation Page </a>
+            <a href="http://127.0.0.1:8000/evaluation/"><button>برو به صفحه ارزیابی</button></a>
 
         <script>
-        const api_url = 'http://127.0.0.1:8000/employees/';
+        /*const api_url = 'http://127.0.0.1:8000/employees/';
         xmlhttp=new XMLHttpRequest();
         xmlhttp.open("GET",api_url,false);
         xmlhttp.send();
@@ -46,4 +27,4 @@
         
         </script>
     </body>
-</html> 
+</html>
