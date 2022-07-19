@@ -2,7 +2,7 @@
 <html lang = "en">
     <head>
         <meta charset="UTF-8">
-        <title>Login</title>
+        <title>ورود به سامانه</title>
 
         <style>
             form {
@@ -32,7 +32,7 @@
             {% csrf_token %}
             <p>نام کاربری:{{ form.username }}</p>
             <p>گذرواژه:{{ form.password }}</p>
-            <P><input type="submit" value ='login'></p>
+            <P><input type="submit" value ='ورود'></p>
             <input type="hidden" name = 'next' value ='{{next}}'>
 
         </form>
