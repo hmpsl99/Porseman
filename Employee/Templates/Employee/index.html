@@ -1,37 +1,187 @@
 <!DOCTYPE html>
-<html lang = "en">
-    <head>
-        <meta charset="UTF-8">
-        <title>پرسمان</title>
-    </head>
-    <body>
-        <h1  style="direction:rtl;">نکاتی راجع به سامانه پرسمان و نحوه ارزیابی</h1>
-        <ul style="direction:rtl;">
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>پرسمان</title>
+    <link rel="shortcut icon" href="/static/img/favicon.png" type="image/x-icon" />
+
+    <style>
+        @font-face {
+            font-family: "Shabnam";
+            src: url("/static/font/Shabnam.ttf");
+        }
+
+        body {
+            font-family: "Shabnam";
+        }
+
+        button {
+            font-family: "Shabnam";
+        }
+
+        .explanation {
+            border: 2px;
+            border-color: rgb(39, 118, 236);
+            border-style: solid;
+            border-radius: 20px;
+            margin-top: 20px;
+            padding-right: 20px;
+            padding-bottom: 10px;
+            background-color: rgb(198, 221, 240);
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        ul li:before {
+            content: ' ✓ ';
+        }
+
+        img {
+            filter: grayscale(100%);
+            transition: filter .3s ease-in-out;
+        }
+
+        img:hover {
+            filter: none;
+        }
+
+        .pictures {
+            display: flex;
+            justify-content: center;
+            column-gap: 50px;
+            margin: 50px;
+        }
+
+        .multiple {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .button-87 {
+            margin: 10px;
+            padding: 15px 30px;
+            text-align: center;
+            text-transform: uppercase;
+            transition: 0.5s;
+            background-size: 200% auto;
+            color: white;
+            border-radius: 10px;
+            display: block;
+            border: 0px;
+            font-weight: 700;
+            box-shadow: 0px 0px 14px -7px #f09819;
+            background-image: linear-gradient(45deg, #FF512F 0%, #F09819 51%, #FF512F 100%);
+            cursor: pointer;
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: manipulation;
+        }
+
+        .button-87:hover {
+            background-position: right center;
+            /* change the direction of the change here */
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .button-87:active {
+            transform: scale(0.95);
+        }
+        a:link {
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: none;
+        }
+        a {
+            justify-content: center;
+        }
+        .typewriter {
+            padding-top: 10px;
+            text-align: center;
+            color: rgb(7, 6, 6);
+            font-family: 'Shabnam';
+            overflow: hidden;
+            white-space: nowrap;
+            margin: 0 auto;
+            animation:
+                typing 2s
+        }
+
+        /* The typing effect */
+        @keyframes typing {
+            from {
+                width: 0
+            }
+
+            to {
+                width: 100%
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="explanation">
+        <h1 style="direction: rtl">نکاتی راجع به سامانه پرسمان و نحوه ارزیابی</h1>
+        <ul style="direction: rtl">
             <li>این سامانه برای تسهیل فرایند ارزیابی سازمانی توسعه داده شده است</li>
             <li>تمامی پاسخ های شما به صورت ناشناس در سامانه ثبت می شود</li>
-            <li>لطفا در ثبت پاسخ های خود دقت لازم را داشته باشید و به افراد مشخص شده و با نسبت های گفته شده، سؤالات را پاسخ دهید</li>
+            <li>
+                لطفا در ثبت پاسخ های خود دقت لازم را داشته باشید و به افراد مشخص شده و
+                با نسبت های گفته شده، سؤالات را پاسخ دهید
+            </li>
+            <li>در پایین صفحه فرایند کلی ارزیابی نشان داده شده است</li>
         </ul>
-    
-            <div style="text-align: center;"><a href="http://127.0.0.1:8000/evaluation/"><button>برو به صفحه ارزیابی</button></a></div>
+    </div>
+    <h3 style='text-align:center; margin-top: 100px'>فرایند ارزیابی</h3>
+    <div class="pictures">
+        <div class="multiple">
+            <img width="200px" height="200px" src="/static/img/evaluation.png" alt="">
+            <p class="typewriter">قدم اول :انجام ارزیابی</p>
+        </div>
+        <div class="multiple">
+            <img width="200px" height="200px" src="/static/img/analysis-new.png" alt="">
+            <p class="typewriter">قدم دوم :تحلیل نتایج</p>
+        </div>
+        <div class="multiple">
+            <img width="200px" height="200px" src="/static/img/feedback.png" alt="">
+            <p class="typewriter">قدم سوم :ارائه بازخورد</p>
+        </div>
+        <div class="multiple">
+            <img width="200px" height="200px" src="/static/img/improvement.png" alt="">
+            <p class="typewriter">قدم چهارم:عملکرد بهتر</p>
+        </div>
 
-        <script>
+
+    </div>
+
+    <div style="display: flex; justify-content: center; text-align: center; margin: 50px;">
+        
+        <button class="button-87" onclick="window.location.href='http://127.0.0.1:8000/evaluation/'">برو به صفحه ارزیابی</button>
+
+    </div>
+
+    <script>
         /*const api_url = 'http://127.0.0.1:8000/employees/';
-        xmlhttp=new XMLHttpRequest();
-        xmlhttp.open("GET",api_url,false);
-        xmlhttp.send();
-        employees = JSON.parse(xmlhttp.responseText);
-        var table = document.getElementById('demo')
-        for (let i = 0; i<employees.length; i++){
-            var id = employees[i].id;
-            var first_name = employees[i].first_name;
-            var position = employees[i].position;
-            var row = `<tr> <td> ${id} </td> <td> ${first_name} </td> <td> ${position} </td> </tr> `
-            table.innerHTML += row
-        }*/
+          xmlhttp=new XMLHttpRequest();
+          xmlhttp.open("GET",api_url,false);
+          xmlhttp.send();
+          employees = JSON.parse(xmlhttp.responseText);
+          var table = document.getElementById('demo')
+          for (let i = 0; i<employees.length; i++){
+              var id = employees[i].id;
+              var first_name = employees[i].first_name;
+              var position = employees[i].position;
+              var row = `<tr> <td> ${id} </td> <td> ${first_name} </td> <td> ${position} </td> </tr> `
+              table.innerHTML += row
+          }*/
+    </script>
+</body>
 
-        
-        
-        
-        </script>
-    </body>
 </html>

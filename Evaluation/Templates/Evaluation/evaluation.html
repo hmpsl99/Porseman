@@ -1,144 +1,151 @@
 <!DOCTYPE html>
-<html lang = "en">
-    <head>
-        <meta charset="UTF-8">
-        <title>Evaluation</title>
-    </head>
-    <body>
-      
-      <label for="relationships">نسبت خود را مشخص کنید</label>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>ارزیابی</title>
+    <style>
+      .dropdowns {
+        display: flex;
+        padding-top: 10px;
+        justify-content: center;
+      }
+      #qa_div {
+        display: flex;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="dropdowns">
+      <label style="margin: 5px" for="relationships"
+        >نسبت خود را مشخص کنید</label
+      >
 
-      <select name="relationships" id="relationships">
-      </select>
+      <select name="relationships" id="relationships"></select>
 
-      <label for="employees">یک شخص را انتخاب کنید</label>
+      <label style="margin: 5px" for="employees">یک شخص را انتخاب کنید</label>
 
-      <select name="employees" id="employees">
-      </select>
-
-      
-
-
-    <div>
-      <form id = "qa_div">
-        
-      </form>
+      <select name="employees" id="employees"></select>
     </div>
 
+    <div>
+      <form id="qa_div"></form>
+    </div>
 
-        <script>
-        const api_url = 'http://127.0.0.1:8000/evaluation/relationships/';
-        xmlhttp=new XMLHttpRequest();
-        xmlhttp.open("GET",api_url,false);
-        xmlhttp.send();
-        relationships = JSON.parse(xmlhttp.responseText);
-        drop_down = document.getElementById("relationships");
+    <script>
+      const api_url = "http://127.0.0.1:8000/evaluation/relationships/";
+      xmlhttp = new XMLHttpRequest();
+      xmlhttp.open("GET", api_url, false);
+      xmlhttp.send();
+      relationships = JSON.parse(xmlhttp.responseText);
+      drop_down = document.getElementById("relationships");
 
-        text = '';
-        for (let i = 0 ;i<relationships.length; i++) {
-          id = relationships[i].id
-          title = relationships[i].title
-          text = `<option value="${id}">${title}</option>`
-          drop_down.innerHTML += text          
-        }
+      text = "";
+      for (let i = 0; i < relationships.length; i++) {
+        id = relationships[i].id;
+        title = relationships[i].title;
+        text = `<option value="${id}">${title}</option>`;
+        drop_down.innerHTML += text;
+      }
 
-        const api_url2 = 'http://127.0.0.1:8000/evaluation/employees';
-        xmlhttp2=new XMLHttpRequest();
-        xmlhttp2.open("GET",api_url2,false);
-        xmlhttp2.send()
-        employees = JSON.parse(xmlhttp2.responseText);
-        drop_down2 = document.getElementById("employees");
+      const api_url2 = "http://127.0.0.1:8000/evaluation/employees";
+      xmlhttp2 = new XMLHttpRequest();
+      xmlhttp2.open("GET", api_url2, false);
+      xmlhttp2.send();
+      employees = JSON.parse(xmlhttp2.responseText);
+      drop_down2 = document.getElementById("employees");
 
-        for (let i = 0 ;i<employees.length; i++) {
-          id = employees[i].id
-          first_name = employees[i].first_name
-          text = `<option value="${id}">${first_name}</option>`
-          drop_down2.innerHTML += text          
-        }
+      for (let i = 0; i < employees.length; i++) {
+        id = employees[i].id;
+        first_name = employees[i].first_name;
+        text = `<option value="${id}">${first_name}</option>`;
+        drop_down2.innerHTML += text;
+      }
 
-        const api_url3 = 'http://127.0.0.1:8000/evaluation/qa';
-        xmlhttp3=new XMLHttpRequest();
-        xmlhttp3.open("GET",api_url3,false);
-        xmlhttp3.send();
-        qa = JSON.parse(xmlhttp3.responseText);
-        
-        var question_list = []
-        for (let i = 0 ; i<qa.length; i++) {
-          question_id = qa[i].q_id;
-          question_list.push(question_id);
-        }
-        
+      const api_url3 = "http://127.0.0.1:8000/evaluation/qa";
+      xmlhttp3 = new XMLHttpRequest();
+      xmlhttp3.open("GET", api_url3, false);
+      xmlhttp3.send();
+      qa = JSON.parse(xmlhttp3.responseText);
 
-        qa_text=''
-        div_qa = document.getElementById("qa_div")
-        for (let i = 0 ; i<qa.length; i++) {
-          question_id = qa[i].q_id
-          question_text = qa[i].q_text
-          answer_id_1= qa[i].answers[0].a_id
-          answer_text_1 = qa[i].answers[0].a_text
-          answer_id_2 = qa[i].answers[1].a_id
-          answer_text_2 = qa[i].answers[1].a_text
-          qa_text =`<p class = '${question_id}'>${question_text}</p>
+      var question_list = [];
+      for (let i = 0; i < qa.length; i++) {
+        question_id = qa[i].q_id;
+        question_list.push(question_id);
+      }
+
+      qa_text = "";
+      div_qa = document.getElementById("qa_div");
+      for (let i = 0; i < qa.length; i++) {
+        question_id = qa[i].q_id;
+        question_text = qa[i].q_text;
+        answer_id_1 = qa[i].answers[0].a_id;
+        answer_text_1 = qa[i].answers[0].a_text;
+        answer_id_2 = qa[i].answers[1].a_id;
+        answer_text_2 = qa[i].answers[1].a_text;
+        qa_text = `<p class = '${question_id}'>${question_text}</p>
           <input name = "${question_id}" type="radio" id = '${answer_id_1}' required>
           <label for="${answer_id_1}">${answer_text_1}</label>
           <input name = "${question_id}" type="radio" id = '${answer_id_2}' required>
-          <label for="${answer_id_2}">${answer_text_2}</label>`
-          div_qa.innerHTML+= qa_text
-        }
-        div_qa.innerHTML +=`<input type="submit">`
+          <label for="${answer_id_2}">${answer_text_2}</label>`;
+        div_qa.innerHTML += qa_text;
+      }
+      div_qa.innerHTML += `<input type="submit">`;
 
-        form_qa = div_qa
+      form_qa = div_qa;
 
-        form_qa.addEventListener("submit", (e) => {
-          //e.preventDefault();
-          let select_relationship = document.getElementById('relationships');
-          var relationship_id = select_relationship.options[select_relationship.selectedIndex].value;
+      form_qa.addEventListener("submit", (e) => {
+        //e.preventDefault();
+        let select_relationship = document.getElementById("relationships");
+        var relationship_id =
+          select_relationship.options[select_relationship.selectedIndex].value;
 
-          
-          let select_employee = document.getElementById('employees');
-          var employee_id = select_employee.options[select_employee.selectedIndex].value;
+        let select_employee = document.getElementById("employees");
+        var employee_id =
+          select_employee.options[select_employee.selectedIndex].value;
 
-          answer_list = [];
-          var radios = document.getElementsByTagName('input');
-          for (let i = 0; i < radios.length; i++) {
-                if (radios[i].type === 'radio' && radios[i].checked) {
-                // get value, set checked flag or do whatever you need to
-                answer_list.push(parseInt(radios[i].id));       
-                }
-                }
-          final_object = [];
-          for (let  z = 0 ; z<answer_list.length;z++) {
-            final_object.push({e_id: employee_id, r_id: relationship_id, qu_id:question_list[z], ans_id: answer_list[z]})
+        answer_list = [];
+        var radios = document.getElementsByTagName("input");
+        for (let i = 0; i < radios.length; i++) {
+          if (radios[i].type === "radio" && radios[i].checked) {
+            // get value, set checked flag or do whatever you need to
+            answer_list.push(parseInt(radios[i].id));
           }
-          
-          var xhr4 = new XMLHttpRequest();
-          xhr4.open('POST', 'http://127.0.0.1:8000/evaluation/qa', true);
-          data = JSON.stringify(final_object);
-          console.log(data)
-          xhr4.setRequestHeader("X-CSRFToken", '{{csrf_token}}')
-          xhr4.setRequestHeader('Content-type', 'application/json;charset=UTF-8');
-          //"application/x-www-form-urlencoded"
-          xhr4.onload = function () {
+        }
+        final_object = [];
+        for (let z = 0; z < answer_list.length; z++) {
+          final_object.push({
+            e_id: employee_id,
+            r_id: relationship_id,
+            qu_id: question_list[z],
+            ans_id: answer_list[z],
+          });
+        }
+
+        var xhr4 = new XMLHttpRequest();
+        xhr4.open("POST", "http://127.0.0.1:8000/evaluation/qa", true);
+        data = JSON.stringify(final_object);
+        console.log(data);
+        xhr4.setRequestHeader("X-CSRFToken", "{{csrf_token}}");
+        xhr4.setRequestHeader("Content-type", "application/json;charset=UTF-8");
+        //"application/x-www-form-urlencoded"
+        xhr4.onload = function () {
           // do something to response
           console.log(this.responseText);
-          };
-          xhr4.send(data);
-          alert("Form has been submited");
-        })
+        };
+        xhr4.send(data);
+        alert("Form has been submited");
+      });
 
-        //var xhr4 = new XMLHttpRequest();
-        //xhr4.open('POST', 'http://127.0.0.1:8000/evaluation/qa', true);
-        //data = 'title=newpost&body=Body';
-        //xhr4.setRequestHeader("X-CSRFToken", '{{csrf_token}}')
-        //xhr4.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-        //xhr4.onload = function () {
-        // do something to response.
-        //console.log(this.responseText);
-        //};
-        //xhr4.send(data)..;
-
-        
-        
-        </script>
-    </body>
-</html> 
+      //var xhr4 = new XMLHttpRequest();
+      //xhr4.open('POST', 'http://127.0.0.1:8000/evaluation/qa', true);
+      //data = 'title=newpost&body=Body';
+      //xhr4.setRequestHeader("X-CSRFToken", '{{csrf_token}}')
+      //xhr4.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+      //xhr4.onload = function () {
+      // do something to response.
+      //console.log(this.responseText);
+      //};
+      //xhr4.send(data)..;
+    </script>
+  </body>
+</html>
