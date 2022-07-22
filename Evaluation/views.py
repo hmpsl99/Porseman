@@ -14,7 +14,7 @@ from Evaluation.models import Evaluation,Relationship
 def relationship_api(request):
     all_relationships = Relationship.objects.all()
     serializer = RelationshipSerializer(all_relationships, many = True)
-    return JsonResponse(serializer.data,safe=False)
+    return JsonResponse(serializer.data,safe=False,json_dumps_params={'ensure_ascii': False})
 
 def evaluation_page(request):
     return render(request, 'Evaluation/evaluation.html')
@@ -22,7 +22,7 @@ def evaluation_page(request):
 def employee_api(request):
     all_employees = Employee.objects.all().values('id','first_name')
     serializer = EmployeeSerializer(all_employees,many = True)
-    return JsonResponse(serializer.data,safe=False)
+    return JsonResponse(serializer.data,safe=False,json_dumps_params={'ensure_ascii': False})
     
 @csrf_protect
 def qa_api(request):

@@ -14,7 +14,7 @@ def all_employees_api(request):
     query = 'select Employee_employee.id,  Employee_employee.first_name, Employee_position.name from Employee_employee join Employee_position on Employee_position.id = Employee_employee.position_id'
     all_employees = Employee.objects.raw(query)
     serializer = employeeserializer(all_employees, many = True)
-    return JsonResponse(serializer.data,safe=False)
+    return JsonResponse(serializer.data,safe=False,json_dumps_params={'ensure_ascii': False})
 @login_required
 def all_employees(request):
     return render(request, 'Employee/index.html')
