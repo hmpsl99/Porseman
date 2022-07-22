@@ -31,7 +31,7 @@ def qa_api(request):
                 all_questions_answers = Question.objects.raw(query)
                 length = len(all_questions_answers)
                 final = []
-                for i in range(0,length,2):
+                for i in range(0,length,5):
                     x = {"q_id":all_questions_answers[i].id,"q_text":all_questions_answers[i].text,"answers":[]}
                     final.append(x)
                 af = []
@@ -43,6 +43,12 @@ def qa_api(request):
                     af.append(d)
                 x = 0 
                 for i in range(len(final)):
+                    final[i]["answers"].append(af[x])
+                    x+=1
+                    final[i]["answers"].append(af[x])
+                    x+=1
+                    final[i]["answers"].append(af[x])
+                    x+=1
                     final[i]["answers"].append(af[x])
                     x+=1
                     final[i]["answers"].append(af[x])

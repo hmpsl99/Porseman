@@ -36,16 +36,12 @@
       display: block;
     }
 
-    input {
-      display: block;
-    }
-
-    input {
-      display: block;
-    }
+    
 
     .order {
       display: flex;
+      flex-direction: column;
+      gap: 5px;
     }
 
     .line {
@@ -82,6 +78,17 @@
 
     .button-87:active {
       transform: scale(0.95);
+    }
+
+    .b {
+      display: inline-block;
+    }
+
+    option {
+      font-family: "Shabnam";
+    }
+    select {
+      font-family: "Shabnam";
     }
   </style>
 </head>
@@ -156,17 +163,38 @@
       answer_text_1 = qa[i].answers[0].a_text;
       answer_id_2 = qa[i].answers[1].a_id;
       answer_text_2 = qa[i].answers[1].a_text;
+      answer_id_3 = qa[i].answers[2].a_id;
+      answer_text_3 = qa[i].answers[2].a_text;
+      answer_id_4 = qa[i].answers[3].a_id;
+      answer_text_4 = qa[i].answers[3].a_text;
+      answer_id_5 = qa[i].answers[4].a_id;
+      answer_text_5 = qa[i].answers[4].a_text;
       qa_text = `<p class = '${question_id}'>${counter}. ${question_text}</p>
         <div class = "line">
         <div class = 'order'>
+        <div class = "b">
         <input name = "${question_id}" type="radio" id = '${answer_id_1}' required>
         <label for="${answer_id_1}">${answer_text_1}</label>
         </div>
-        <div class = 'order'>
+        <div class = "b">
         <input name = "${question_id}" type="radio" id = '${answer_id_2}' required>
         <label for="${answer_id_2}">${answer_text_2}</label>
         </div>
-        </div>`;
+        <div class = "b">
+        <input name = "${question_id}" type="radio" id = '${answer_id_3}' required>
+        <label for="${answer_id_3}">${answer_text_3}</label>
+        </div>
+        <div class = "b">
+        <input name = "${question_id}" type="radio" id = '${answer_id_4}' required>
+        <label for="${answer_id_4}">${answer_text_4}</label>
+        </div>
+        <div class = "b">
+        <input name = "${question_id}" type="radio" id = '${answer_id_5}' required>
+        <label for="${answer_id_5}">${answer_text_5}</label>
+        </div>
+        </div>
+        </div>
+        `;
       div_qa.innerHTML += qa_text;
       counter += 1;
     }
