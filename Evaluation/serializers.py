@@ -12,7 +12,7 @@ class RelationshipSerializer(serializers.ModelSerializer):
 class EmployeeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Employee
-        fields = ['id','first_name']
+        fields = ['id','first_name','last_name']
 
 class qaSerializer(serializers.Serializer):
     id = serializers.IntegerField()

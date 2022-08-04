@@ -30,7 +30,7 @@ class Employee(models.Model):
     creation_time = models.DateTimeField(default=timezone.now)
     department = models.ForeignKey(Department, on_delete=models.CASCADE , default=1)
     def __str__(self):
-        return self.first_name+self.last_name
+        return self.first_name+ ' ' + self.last_name
 
 
 

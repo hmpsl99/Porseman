@@ -112,9 +112,10 @@
 
 
   <script>
-    const api_url = "http://127.0.0.1:8000/evaluation/relationships/";
+    const base_url = "http://127.0.0.1:8000"
+    const api_url = "/evaluation/relationships/";
     xmlhttp = new XMLHttpRequest();
-    xmlhttp.open("GET", api_url, false);
+    xmlhttp.open("GET", base_url + api_url, false);
     xmlhttp.send();
     relationships = JSON.parse(xmlhttp.responseText);
     drop_down = document.getElementById("relationships");
@@ -127,23 +128,25 @@
       drop_down.innerHTML += text;
     }
 
-    const api_url2 = "http://127.0.0.1:8000/evaluation/employees";
+    const api_url2 = "/evaluation/employees";
     xmlhttp2 = new XMLHttpRequest();
-    xmlhttp2.open("GET", api_url2, false);
+    xmlhttp2.open("GET", base_url + api_url2, false);
     xmlhttp2.send();
     employees = JSON.parse(xmlhttp2.responseText);
     drop_down2 = document.getElementById("employees");
 
+
     for (let i = 0; i < employees.length; i++) {
       id = employees[i].id;
       first_name = employees[i].first_name;
-      text = `<option value="${id}">${first_name}</option>`;
+      last_name = employees[i].last_name;
+      text = `<option value="${id}">${first_name} ${last_name}</option>`;
       drop_down2.innerHTML += text;
     }
 
-    const api_url3 = "http://127.0.0.1:8000/evaluation/qa";
+    const api_url3 = "/evaluation/qa";
     xmlhttp3 = new XMLHttpRequest();
-    xmlhttp3.open("GET", api_url3, false);
+    xmlhttp3.open("GET", base_url + api_url3, false);
     xmlhttp3.send();
     qa = JSON.parse(xmlhttp3.responseText);
 
@@ -231,7 +234,7 @@
       }
 
       var xhr4 = new XMLHttpRequest();
-      xhr4.open("POST", "http://127.0.0.1:8000/evaluation/qa", true);
+      xhr4.open("POST", base_url + "/evaluation/qa", true);
       data = JSON.stringify(final_object);
       console.log(data);
       xhr4.setRequestHeader("X-CSRFToken", "{{csrf_token}}");

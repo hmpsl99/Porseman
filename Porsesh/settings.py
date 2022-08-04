@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-w_=ustqe+urt_f39q2j5k!jvv=z116d2ipw*g%zd5+ztjhim8(
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -59,7 +59,7 @@ ROOT_URLCONF = 'Porsesh.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR,'Employee/Templates'),os.path.join(BASE_DIR,'Evaluation/Templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

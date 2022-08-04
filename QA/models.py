@@ -13,6 +13,7 @@ class Answer(models.Model):
     text = models.CharField(max_length=500)
     question = models.ForeignKey(Question,on_delete=models.CASCADE)
     creation_time = models.DateTimeField(default=timezone.now)
+    score = models.IntegerField(default = 0, null=True)
     def __str__(self):
         return self.text
 

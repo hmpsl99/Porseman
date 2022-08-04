@@ -1,4 +1,3 @@
-from tkinter import CASCADE
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
@@ -17,3 +16,5 @@ class Evaluation(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     answer = models.ForeignKey(Answer, on_delete=models.CASCADE)
     creation_time = models.DateTimeField(default=timezone.now)
+    def __str__(self):
+        return  str(self.question) + ' ' + str(self.answer)

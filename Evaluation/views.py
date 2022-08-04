@@ -20,7 +20,7 @@ def evaluation_page(request):
     return render(request, 'Evaluation/evaluation.html')
 
 def employee_api(request):
-    all_employees = Employee.objects.all().values('id','first_name')
+    all_employees = Employee.objects.all().values('id','first_name','last_name')
     serializer = EmployeeSerializer(all_employees,many = True)
     return JsonResponse(serializer.data,safe=False,json_dumps_params={'ensure_ascii': False})
     
