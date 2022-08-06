@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?><sqlb_project><db path="C:/Users/Hadi Mohebali Pour/Documents/GitHub/Porseman/Porseman/db.sqlite3" readonly="0" foreign_keys="1" case_sensitive_like="0" temp_store="0" wal_autocheckpoint="1000" synchronous="2"/><attached/><window><main_tabs open="structure browser pragmas query" current="3"/></window><tab_structure><column_width id="0" width="300"/><column_width id="1" width="0"/><column_width id="2" width="100"/><column_width id="3" width="7979"/><column_width id="4" width="0"/><expanded_item id="0" parent="1"/><expanded_item id="1" parent="1"/><expanded_item id="2" parent="1"/><expanded_item id="3" parent="1"/></tab_structure><tab_browse><current_table name="4,7:mainresults"/><default_encoding codec=""/><browse_table_settings><table schema="main" name="Employee_department" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_"><sort/><column_widths><column index="1" value="40"/><column index="2" value="132"/><column index="3" value="129"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="auth_user" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_"><sort/><column_widths><column index="1" value="40"/><column index="2" value="300"/><column index="3" value="175"/><column index="4" value="92"/><column index="5" value="112"/><column index="6" value="75"/><column index="7" value="143"/><column index="8" value="57"/><column index="9" value="66"/><column index="10" value="175"/><column index="11" value="78"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="results" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_"><sort/><column_widths><column index="1" value="95"/><column index="2" value="143"/><column index="3" value="169"/><column index="4" value="145"/><column index="5" value="300"/><column index="6" value="203"/><column index="7" value="76"/><column index="8" value="74"/><column index="9" value="117"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table></browse_table_settings></tab_browse><tab_sql><sql name="SQL 1">SELECT 
+user.username ,employee.last_name,question.category, question.text, answer.text as your_answer , answer.score as self_score,
+ a.others_avg , (a.others_avg-answer.score) as difference, b.department_avg
+from Evaluation_evaluation as evaluation 
+join Employee_employee as employee  on evaluation.reviewee_id = employee.id
+join QA_question as question on question.id = evaluation.question_id join QA_answer as answer on answer.id = evaluation.answer_id
+join auth_user as user on user.id = evaluation.user_logged_in_id 
+join Evaluation_relationship as relationship on relationship.id = evaluation.relationship_id
+join (
+SELECT user.username ,employee.last_name, question.text, round(avg( case when relationship.id != 3 then answer.score END),2) as others_avg
+from Evaluation_evaluation as evaluation 
+join Employee_employee as employee  on evaluation.reviewee_id = employee.id
+join QA_question as question on question.id = evaluation.question_id
+ join QA_answer as answer on answer.id = evaluation.answer_id
+join auth_user as user on user.id = evaluation.user_logged_in_id 
+join Evaluation_relationship as relationship on relationship.id = evaluation.relationship_id
+group by user.username ,employee.last_name,  question.text
+) a  on a.username= user.username and  a.last_name =  employee.last_name and a.text = question.text
+join (
+SELECT user.username, question.text, round(avg(answer.score),2) as department_avg
+from Evaluation_evaluation as evaluation 
+join Employee_employee as employee  on evaluation.reviewee_id = employee.id
+join QA_question as question on question.id = evaluation.question_id join QA_answer as answer on answer.id = evaluation.answer_id
+join auth_user as user on user.id = evaluation.user_logged_in_id 
+join Evaluation_relationship as relationship on relationship.id = evaluation.relationship_id
+group by user.username, question.text
+) b on b.username = user.username and a.text = question.text
+where relationship.id = 3 
+
+</sql><sql name="SQL 2">SELECT user.username ,employee.last_name, question.text, round(avg( case when relationship.id != 3 then answer.score END),2) as others_avg
+from Evaluation_evaluation as evaluation 
+join Employee_employee as employee  on evaluation.reviewee_id = employee.id
+join QA_question as question on question.id = evaluation.question_id join QA_answer as answer on answer.id = evaluation.answer_id
+join auth_user as user on user.id = evaluation.user_logged_in_id 
+join Evaluation_relationship as relationship on relationship.id = evaluation.relationship_id
+group by user.username ,employee.last_name,  question.text</sql><sql name="SQL 3">--
+SELECT user.username, question.text, round(avg(answer.score),2) as department_avg
+from Evaluation_evaluation as evaluation 
+join Employee_employee as employee  on evaluation.reviewee_id = employee.id
+join QA_question as question on question.id = evaluation.question_id join QA_answer as answer on answer.id = evaluation.answer_id
+join auth_user as user on user.id = evaluation.user_logged_in_id 
+join Evaluation_relationship as relationship on relationship.id = evaluation.relationship_id
+group by user.username, question.text;
+</sql><sql name="SQL 4">SELECT 
+user.username ,employee.last_name,question.category, question.text, answer.text as your_answer , answer.score as self_score,question.id
+,answer.id
+from Evaluation_evaluation as evaluation 
+join Employee_employee as employee  on evaluation.reviewee_id = employee.id
+join QA_question as question on question.id = evaluation.question_id 
+join QA_answer as answer on answer.id = evaluation.answer_id
+join auth_user as user on user.id = evaluation.user_logged_in_id 
+join Evaluation_relationship as relationship on relationship.id = evaluation.relationship_id
+where relationship.id = 3 
+order by question.text
+
+select * from Evaluation_evaluation;
+
+select e.question_id,e.answer_id,e.relationship_id,count(*) 
+from Evaluation_evaluation e GROUP by e.question_id,e.answer_id,e.relationship_id having count(*) &gt;1 ;
+</sql><sql name="SQL 5">create view results as 
+SELECT 
+user.username as evaluation_id ,employee.last_name as reviewee_last_name,question.category question_category, question.text as question, answer.text as reviewee_own_answer , answer.score as reviewee_own_answer_score,
+
+(select round(avg(a.score),2) from Evaluation_evaluation e
+join QA_answer a on a.id = e.answer_id
+where e.question_id =evaluation.question_id and e.relationship_id != 3
+GROUP by e.user_logged_in_id, e.question_id) as other_avg,
+
+(select round(avg(a.score),2) from Evaluation_evaluation e
+join QA_answer a on a.id = e.answer_id
+where e.question_id =evaluation.question_id and e.relationship_id != 3
+GROUP by e.user_logged_in_id, e.question_id) - answer.score as difference,
+
+
+(select round(avg(a.score),2) as department_avg from Evaluation_evaluation e
+join QA_answer a on a.id = e.answer_id
+where e.question_id =evaluation.question_id
+GROUP by e.user_logged_in_id, e.question_id) as department_avg
+
+
+from Evaluation_evaluation as evaluation 
+join Employee_employee as employee  on evaluation.reviewee_id = employee.id
+join QA_question as question on question.id = evaluation.question_id join QA_answer as answer on answer.id = evaluation.answer_id
+join auth_user as user on user.id = evaluation.user_logged_in_id 
+join Evaluation_relationship as relationship on relationship.id = evaluation.relationship_id
+
+</sql><current_tab id="4"/></tab_sql></sqlb_project>

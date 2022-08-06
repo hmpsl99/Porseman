@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?><sqlb_project><db path="C:/Users/Hadi Mohebali Pour/Documents/GitHub/Porseman/Porseman/db.sqlite3" readonly="0" foreign_keys="1" case_sensitive_like="0" temp_store="0" wal_autocheckpoint="1000" synchronous="2"/><attached/><window><main_tabs open="structure browser pragmas query" current="3"/></window><tab_structure><column_width id="0" width="300"/><column_width id="1" width="0"/><column_width id="2" width="100"/><column_width id="3" width="8704"/><column_width id="4" width="0"/><expanded_item id="0" parent="1"/><expanded_item id="1" parent="1"/><expanded_item id="2" parent="1"/><expanded_item id="3" parent="1"/></tab_structure><tab_browse><current_table name="4,19:mainEmployee_department"/><default_encoding codec=""/><browse_table_settings/></tab_browse><tab_sql><sql name="SQL 1"></sql><sql name="Edit View results">CREATE VIEW results as 
+SELECT 
+ROW_NUMBER () OVER ( 
+        ORDER BY user.username , employee.last_name, question.category, answer.text,answer.score
+    )  id , user.username as evaluation_id ,employee.last_name as reviewee_last_name,question.category question_category, question.text as question, answer.text as reviewee_own_answer , answer.score as reviewee_own_answer_score,
+
+(select round(avg(a.score),2) from Evaluation_evaluation e
+join QA_answer a on a.id = e.answer_id
+where e.question_id =evaluation.question_id and e.relationship_id != 3
+GROUP by e.user_logged_in_id, e.question_id) as other_avg,
+
+(select round(avg(a.score),2) from Evaluation_evaluation e
+join QA_answer a on a.id = e.answer_id
+where e.question_id =evaluation.question_id and e.relationship_id != 3
+GROUP by e.user_logged_in_id, e.question_id) - answer.score as difference,
+
+
+(select round(avg(a.score),2) as department_avg from Evaluation_evaluation e
+join QA_answer a on a.id = e.answer_id
+where e.question_id =evaluation.question_id
+GROUP by e.user_logged_in_id, e.question_id) as department_avg
+
+
+from Evaluation_evaluation as evaluation 
+join Employee_employee as employee  on evaluation.reviewee_id = employee.id
+join QA_question as question on question.id = evaluation.question_id join QA_answer as answer on answer.id = evaluation.answer_id
+join auth_user as user on user.id = evaluation.user_logged_in_id 
+join Evaluation_relationship as relationship on relationship.id = evaluation.relationship_id</sql><current_tab id="1"/></tab_sql></sqlb_project>
