@@ -8,6 +8,7 @@ from dbview.models import DbView
 # Create your models here.
 class Relationship(models.Model):
     title = models.CharField(max_length=100)
+    score_weight = models.IntegerField(default=0)
     def __str__(self):
         return self.title
 class Evaluation(models.Model):
