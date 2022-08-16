@@ -2,7 +2,7 @@ from django.shortcuts import render
 from Evaluation.models import Relationship
 from Evaluation.serializers import RelationshipSerializer,EmployeeSerializer,qaSerializer
 from Employee.models import Employee
-from QA.models import Question,Answer
+from QA.models import Question,Answer,Question_new,Answer_new,Category_new
 from django.http import HttpRequest, HttpResponse, JsonResponse
 import json
 from django.views.decorators.csrf import csrf_protect
@@ -70,3 +70,22 @@ def qa_api(request):
 
                 return JsonResponse("OK",safe=False)
     #return HttpResponse(a)
+@csrf_exempt
+def qa_api_new(request):
+    if request.method == "GET":
+        full_object = []
+        for category in Category_new.objects.all():
+            category_dict = {'category_title':category.title,'questions':[]}
+            for question in category.question.all():
+                question_dict = {'question_id':question.id,'question_text':question.text, 'answers':[]}
+                for answer in question.answer.all():
+                    answer_dict = {'answer_id': answer.id , 'answer_text': answer.text }
+                    question_dict['answers'].append(answer_dict)
+                category_dict['questions'].append(question_dict)
+            full_object.append(category_dict)
+            return JsonResponse(full_object,safe=False, json_dumps_params={'ensure_ascii': False})
+     
+                
+                
+
+        

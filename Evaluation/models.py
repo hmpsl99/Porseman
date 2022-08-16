@@ -4,7 +4,6 @@ from django.contrib.auth.models import User
 from QA.models import Question,Answer
 from Employee.models import Employee
 from django.utils import timezone
-from dbview.models import DbView
 # Create your models here.
 class Relationship(models.Model):
     title = models.CharField(max_length=100)
