@@ -74,7 +74,8 @@ def qa_api(request):
 def qa_api_new(request):
     if request.method == "GET":
         full_object = []
-        for category in Category_new.objects.all():
+        print(len(Category_new.objects.all()))
+        for category in Category_new.objects.all(): 
             category_dict = {'category_title':category.title,'questions':[]}
             for question in category.question.all():
                 question_dict = {'question_id':question.id,'question_text':question.text, 'answers':[]}
@@ -82,10 +83,11 @@ def qa_api_new(request):
                     answer_dict = {'answer_id': answer.id , 'answer_text': answer.text }
                     question_dict['answers'].append(answer_dict)
                 category_dict['questions'].append(question_dict)
-            full_object.append(category_dict)
-            return JsonResponse(full_object,safe=False, json_dumps_params={'ensure_ascii': False})
+            full_object.append(category_dict)        
+        return JsonResponse(full_object,safe=False, json_dumps_params={'ensure_ascii': False})
      
-                
+def evaluation_page2(request):
+    return render(request, 'Evaluation/evaluation_new.html')          
                 
 
         
