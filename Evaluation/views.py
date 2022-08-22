@@ -4,10 +4,13 @@ from Evaluation.serializers import RelationshipSerializer,EmployeeSerializer,qaS
 from Employee.models import Employee
 from QA.models import Question,Answer,Question_new,Answer_new,Category_new
 from django.http import HttpRequest, HttpResponse, JsonResponse
+from django.contrib.auth.models import User
 import json
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.csrf import csrf_exempt
 from Evaluation.models import Evaluation,Relationship
+from django.contrib.auth.decorators import login_required
+
 
 
 # Create your views here.
@@ -85,9 +88,30 @@ def qa_api_new(request):
                 category_dict['questions'].append(question_dict)
             full_object.append(category_dict)        
         return JsonResponse(full_object,safe=False, json_dumps_params={'ensure_ascii': False})
-     
+    if request.method == "POST":
+        evaluation_serie = request.user
+        object_received = json.loads(request.body)
+        reviewee_id = int(object_received.get('reviewee_id'))
+        relationship_id = int(object_received.get('relationship_id'))
+        answers = object_received.get('answers')
+        for question in answers:
+            question_id = int (question)
+            answer_id = answers[question]
+            rev = Employee.objects.get(id=reviewee_id)
+            rel = Relationship.objects.get(id = relationship_id)
+            qu = Question.objects.get(id = question_id)
+            an = Answer.objects.get(id = answer_id)
+            new_record = Evaluation(user_logged_in = evaluation_serie,reviewee=rev,relationship=rel ,question=qu,answer =an)
+            new_record.save()   
+        return HttpResponse(status = 200)
+
+@login_required
 def evaluation_page2(request):
-    return render(request, 'Evaluation/evaluation_new.html')          
+    return render(request, 'Evaluation/evaluation_new.html')   
+
+@login_required
+def final_success(request):
+    return render(request,'Evaluation/end_success.html')     
                 
 
         

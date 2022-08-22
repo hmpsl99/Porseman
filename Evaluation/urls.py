@@ -8,4 +8,6 @@ urlpatterns = [
     path('qa',views.qa_api),
     path('qa_new',views.qa_api_new),
     path('new',views.evaluation_page2),
+    path('success',views.final_success),
+
 ]
