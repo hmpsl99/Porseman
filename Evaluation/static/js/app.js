@@ -96,19 +96,18 @@ const app = Vue.createApp({
       return final_object;
     },
     getCookie(name) {
-      var cookieValue = null;
-      if (document.cookie && document.cookie !== "") {
-        var cookies = document.cookie.split(";");
-        for (var i = 0; i < cookies.length; i++) {
-          var cookie = jQuery.trim(cookies[i]);
-          // Does this cookie string begin with the name we want?
-          if (cookie.substring(0, name.length + 1) === name + "=") {
-            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-            break;
-          }
-        }
+      if (!document.cookie) {
+        return null;
       }
-      return cookieValue;
+    
+      const xsrfCookies = document.cookie.split(';')
+        .map(c => c.trim())
+        .filter(c => c.startsWith(name + '='));
+    
+      if (xsrfCookies.length === 0) {
+        return null;
+      }
+      return decodeURIComponent(xsrfCookies[0].split('=')[1]);
     },
     async submit() {
       base_url = "http://127.0.0.1:8000";
@@ -131,12 +130,13 @@ const app = Vue.createApp({
           relationship_id: this.relationship_with_reviewee,
           answers: this.answers,
         });
+        const csrfToken = this.getCookie('CSRF-TOKEN');
         const rawResponse = await fetch(base_url + "/evaluation/qa_new", {
           method: "POST",
           headers: {
             Accept: "application/json",
             "Content-Type": "application/json",
-            "X-CSRFToken": csrftoken,
+            "X-CSRFToken": csrfToken,
           },
           mode : 'same-origin',
           body: data,

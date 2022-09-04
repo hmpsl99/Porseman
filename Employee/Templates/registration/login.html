@@ -103,6 +103,10 @@
         .button-87:active {
             transform: scale(0.95);
         }
+        .flex-container {
+            display: flex;
+            flex-direction: row;
+        }
     </style>
 </head>
 
@@ -119,11 +123,12 @@
     {%endif%}
     <form method='post' action="{% url 'login'%}">
         {% csrf_token %}
-        <p>نام کاربری:{{ form.username }}</p>
-        <p>گذرواژه:{{ form.password }}</p>
-        <P><input class="button-87" style="font-family: 'Shabnam';" type="submit" value='ورود'></p>
+        <div style="padding:20px;">
+        <div class='flex-container' style="padding:10px;"><div>نام کاربری:</div><div style="margin-left:13px">{{ form.username }}</div></div>
+        <div class='flex-container' style="padding:10px;"><div>گذرواژه:</div><div style="margin-left:30px">{{ form.password }}</div></div>
+        </div>
+        <div><input class="button-87" style="font-family: 'Shabnam';" type="submit" value='ورود'></div>
         <input type="hidden" name='next' value='{{next}}'>
-
     </form>
 
     <div class="power">Powered By:</div>
